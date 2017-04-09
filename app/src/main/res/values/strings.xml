@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Fragrant World</string>
+    <string name="error_1">Нет сетевого подключения</string>
+    <string name="loading">Загрузка...</string>
+    <string name="catalog">Каталог</string>
+    <string name="sets">Сеты</string>
+    <string name="shops">Магазины</string>
+    <string name="actions">Акции</string>
+    <string name="profile">Профиль</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="check_connection">Проверьте интернет подключение</string>
+    <string name="retry">Повторить</string>
+    <string name="label_tematic_set">Тематические подборки на любой случай</string>
+    <string name="label_last_news">Наши последние новости</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="large_margin">30dp</dimen>
+
+    <dimen name="earn_button_height">56dp</dimen>
+
+    <!-- Material dimension indents -->
+    <dimen name="button_size">36dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="sub_toolbar_height">48dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="middle_margin">8dp</dimen>
+    <dimen name="icon_size">48dp</dimen>
+    <dimen name="small_icon_margin">12dp</dimen>
+    <dimen name="small_icon">24dp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+
+    <!-- Material text sizes -->
+    <dimen name="large_text_size">24sp</dimen>
+    <dimen name="medium_text_size">20sp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+    <dimen name="body_text_1">16sp</dimen>
+    <dimen name="body_text_2">14sp</dimen>
+    <dimen name="body_text_3">12sp</dimen>
+    <dimen name="mini_margin">4dp</dimen>
+    <dimen name="bit_text_size">10sp</dimen>
+</resources>

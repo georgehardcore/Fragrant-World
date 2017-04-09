@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_catalog"
+          android:title="@string/catalog"
+          android:icon="@drawable/ic_action_catalog" />
+    <item android:id="@+id/nav_sets"
+          android:title="@string/sets"
+          android:icon="@drawable/ic_action_sets" />
+    <item android:id="@+id/nav_actions"
+          android:title="@string/actions"
+          android:icon="@drawable/ic_action_actions" />
+    <item android:id="@+id/nav_shops"
+          android:title="@string/shops"
+          android:icon="@drawable/ic_action_shops" />
+    <item android:id="@+id/nav_profile"
+          android:title="@string/profile"
+          android:icon="@drawable/ic_action_profile" />
+</menu>

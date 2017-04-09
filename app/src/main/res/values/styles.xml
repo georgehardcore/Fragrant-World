@@ -1,0 +1,134 @@
+<resources>
+
+
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light"/>
+
+    <style name="FrameworkRoot.Widget" parent="Theme.AppCompat.Light"/>
+
+    <!-- Immediate parentFragment theme to specify base values for custom attributes -->
+    <style name="Theme" parent="FrameworkRoot.Theme">
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar.Custom</item>
+    </style>
+
+    <style name="Theme.AppCompat.Custom" parent="Theme.AppCompat.Light">
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar.Custom</item>
+
+    </style>
+
+
+    <style name="Widget.AppCompat.ActionBar.Custom" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="background">@color/color_primary</item>
+        <item name="titleTextStyle">@style/Theme.ActionBar.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/Theme.ActionBar.SubtitleTextStyle</item>
+    </style>
+
+    <style name="ActionBarPopupThemeOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="Theme.World.Base" parent="Theme">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="homeAsUpIndicator">@drawable/ic_action_up</item>
+        <item name="popupItemBackground">?android:selectableItemBackground</item>
+        <item name="photoItemForeground">?android:selectableItemBackground</item>
+        <item name="photoItemForegroundBorderless">?android:selectableItemBackground</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:textColorLink">@color/color_accent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_up</item>
+
+        <item name="android:spinnerDropDownItemStyle">@style/Theme.World.SpinnerItem</item>
+        <item name="android:popupMenuStyle">@style/Widget.World.PopupMenu</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.World.PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.World.ListView.DropDown</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/TextAppearance.LargePopupMenu</item>
+        <item name="android:textViewStyle">@style/Theme.World.TextView</item>
+        <item name="android:editTextStyle">@style/Theme.World.EditText</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_action_close</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_action_close</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionModeBackground">@color/color_accent</item>
+        <item name="actionModeBackground">@color/color_accent</item>
+
+    </style>
+
+    <style name="Theme.World.SpinnerItem" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.World.TextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="Theme.World.EditText" parent="android:Widget.EditText">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="Theme.World" parent="Theme.World.Base"/>
+
+    <style name="ActionBarThemeOverlay" parent="">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlHighlight">@color/body_text_2</item>
+    </style>
+
+
+    <style name="Widget.World.ListView.DropDown" parent="Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:listSelector">?popupItemBackground</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
+    <style name="Widget.World.PopupMenu" parent="Widget.AppCompat.Light.PopupMenu">
+        <item name="android:dropDownSelector">?popupItemBackground</item>
+    </style>
+
+    <style name="TextAppearance.LargePopupMenu" parent="TextAppearance.AppCompat.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/body_text_1</item>
+    </style>
+
+    <style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse"/>
+
+    <style name="Widget.ActionBar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.ActionBar.SubtitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextViewCodePhone">
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
+
+    <style name="Theme.World.ButtonFilled">
+        <item name="android:background">@drawable/selector_button_filled</item>
+        <item name="android:textSize">@dimen/body_text_2</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:paddingLeft">@dimen/button_padding</item>
+        <item name="android:paddingRight">@dimen/button_padding</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+    </style>
+
+</resources>
