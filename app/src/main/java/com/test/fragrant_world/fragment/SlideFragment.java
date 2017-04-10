@@ -2,7 +2,6 @@ package com.test.fragrant_world.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.model.Banner;
 
-import util.Constants;
+import com.test.fragrant_world.util.Constants;
 
 
 /** SlideFragment fragment. */

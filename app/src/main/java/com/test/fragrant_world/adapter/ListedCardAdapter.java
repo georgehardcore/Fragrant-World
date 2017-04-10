@@ -15,43 +15,43 @@ import com.test.fragrant_world.model.ListedCard;
 import java.util.ArrayList;
 
 
-public class ListedCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ListedCardAdapter<M extends ListedCard> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<ListedCard> tematicSets = new ArrayList<>();
+    private ArrayList<M> modelList = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_card, parent, false);
-        return new TematicSetHolder(view);
+        return new ListedCardHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TematicSetHolder setHolder = (TematicSetHolder) holder;
-        ListedCard tematicSet = tematicSets.get(position);
-        ImageLoader.getInstance().displayImage(tematicSet.getImg(),
+        ListedCardHolder setHolder = (ListedCardHolder) holder;
+        ListedCard cardModel = modelList.get(position);
+        ImageLoader.getInstance().displayImage(cardModel.getImg(),
                 setHolder.imageCard, App.getRoundedOptions());
-        setHolder.description.setText(tematicSet.getDescription());
+        setHolder.description.setText(cardModel.getDescription());
     }
 
-    public void setListedCards(ArrayList<ListedCard> tematicSetArrayList) {
-        this.tematicSets = tematicSetArrayList;
+    public void setListedCards(ArrayList<M> modelList) {
+        this.modelList = modelList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return tematicSets.size();
+        return modelList.size();
     }
 
-    public class TematicSetHolder extends RecyclerView.ViewHolder {
+    public class ListedCardHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageCard;
 
         private final TextView description;
 
-        public TematicSetHolder(View itemView) {
+        public ListedCardHolder(View itemView) {
             super(itemView);
             imageCard = (ImageView) itemView.findViewById(R.id.image_card);
             description = (TextView) itemView.findViewById(R.id.description);

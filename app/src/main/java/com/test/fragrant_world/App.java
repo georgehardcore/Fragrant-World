@@ -57,6 +57,7 @@ public class App extends Application {
     private void initDisplayImagePhotoOptions() {
         options = new DisplayImageOptions.Builder()
                 .displayer(new SimpleBitmapDisplayer())
+                .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();
     }
@@ -65,6 +66,7 @@ public class App extends Application {
     private void initCardImagePhotoOptions() {
         roundedOptions = new DisplayImageOptions.Builder()
                 .displayer(new RoundedBitmapDisplayer(8))
+                .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();
     }

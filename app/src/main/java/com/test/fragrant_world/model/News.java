@@ -39,15 +39,15 @@ public class News implements Parcelable, ListedCard {
         return 0;
     }
 
-    public static final Parcelable.Creator<TematicSet> CREATOR = new Parcelable.Creator<TematicSet>() {
+    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
         @Override
-        public TematicSet createFromParcel(Parcel in) {
-            return new TematicSet(in);
+        public News createFromParcel(Parcel in) {
+            return new News(in);
         }
 
         @Override
-        public TematicSet[] newArray(int size) {
-            return new TematicSet[size];
+        public News[] newArray(int size) {
+            return new News[size];
         }
     };
     @Override

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_marginRight="@dimen/middle_margin"
+              android:layout_marginEnd="@dimen/middle_margin"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:paddingLeft="@dimen/middle_margin"
+        android:paddingRight="@dimen/middle_margin"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/background_card"
+        android:layout_width="300dp"
+        android:layout_height="150dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/middle_margin"
+            android:layout_marginEnd="@dimen/middle_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_toStartOf="@+id/image"
+            android:layout_toLeftOf="@+id/image"
+            android:id="@+id/product_info"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="@dimen/middle_margin"
+                android:id="@+id/name"
+                android:textStyle="bold"
+                android:textSize="@dimen/medium_text_size"
+                android:textColor="@color/body_text_1"
+                android:text="Nipozanno Pavoroti Raflina Reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/middle_margin"
+                android:id="@+id/details"
+                android:textSize="@dimen/body_text_1"
+                android:textColor="@color/body_text_2"
+                android:text="Франция, красное, сухое"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/middle_margin"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:text="500 RUB"
+                    android:textSize="@dimen/body_text_1"
+                    android:textColor="@color/color_primary"
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText"/>
+
+
+                <TextView
+                    android:layout_marginLeft="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:text="0.5"
+                    android:id="@+id/value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -23,8 +23,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="@dimen/middle_margin"/>
+                    android:layout_height="200dp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/indicator"
@@ -93,6 +92,66 @@
                     android:layout_below="@+id/news_label"
                     android:layout_marginTop="@dimen/horizontal_margin"/>
 
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/horizontal_margin"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/viewed_products_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/horizontal_margin"
+                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginTop="@dimen/horizontal_margin"
+                    android:text="@string/label_viewed_products"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:layout_marginLeft="@dimen/horizontal_margin"
+                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginTop="@dimen/horizontal_margin"
+                    android:id="@+id/all"
+                    android:text="@string/all_now"
+                    android:layout_below="@+id/viewed_products_label"
+                    style="@style/Theme.World.ButtonFilled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/sub_toolbar_height"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_toRightOf="@+id/all"
+                    android:layout_toEndOf="@+id/all"
+                    android:layout_marginLeft="@dimen/middle_margin"
+                    android:layout_marginStart="@dimen/middle_margin"
+                    android:id="@+id/sections_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sub_toolbar_height"
+                    android:layout_below="@+id/viewed_products_label"
+                    android:layout_marginTop="@dimen/horizontal_margin"/>
+
+                <android.support.v7.widget.RecyclerView
+
+                    android:id="@+id/products_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/all"
+                    android:layout_marginTop="@dimen/horizontal_margin"/>
+
+                <Button
+                    android:layout_below="@id/products_list"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_margin="@dimen/middle_margin"
+                    android:id="@+id/watch_all"
+                    android:text="@string/watch_all"
+                    style="@style/Theme.World.ButtonFilled"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sub_toolbar_height"/>
 
             </RelativeLayout>
 

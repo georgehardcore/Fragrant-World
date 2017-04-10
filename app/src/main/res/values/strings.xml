@@ -12,4 +12,7 @@
     <string name="retry">Повторить</string>
     <string name="label_tematic_set">Тематические подборки на любой случай</string>
     <string name="label_last_news">Наши последние новости</string>
+    <string name="label_viewed_products">Просмотренные товары</string>
+    <string name="all_now">Все сразу</string>
+    <string name="watch_all">Смотреть все</string>
 </resources>

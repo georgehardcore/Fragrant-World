@@ -20,16 +20,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     /** User item id. */
     public static final int LOGO = 11;
-    /** Catalog item id. */
-    public static final int CATALOG = 3;
-    /** Favorites item id. */
-    public static final int SETS = 12;
-    /** Entries item id. */
-    public static final int SHOPS = 13;
-    /** Help item id. */
-    public static final int ACTIONS = 5;
-    /** Exit item id. */
-    public static final int PROFILE = 9;
     /** Partitions array list. */
     private ArrayList<Partition> partitions = new ArrayList<>();
     /** Selected position. */

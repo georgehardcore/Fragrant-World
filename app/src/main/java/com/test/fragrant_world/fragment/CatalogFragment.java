@@ -12,21 +12,18 @@ import android.view.ViewGroup;
 import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.adapter.IndicatorAdapter;
-import com.test.fragrant_world.adapter.PresentationAdapter;
 import com.test.fragrant_world.adapter.ListedCardAdapter;
+import com.test.fragrant_world.adapter.PresentationAdapter;
+import com.test.fragrant_world.adapter.ProductAdapter;
+import com.test.fragrant_world.adapter.SectionsAdapter;
 import com.test.fragrant_world.http.HttpResponseListener;
 import com.test.fragrant_world.http.Queries;
 import com.test.fragrant_world.http.Request;
 import com.test.fragrant_world.http.json.JSON;
-import com.test.fragrant_world.http.json.JSONArray;
-import com.test.fragrant_world.model.Banner;
-import com.test.fragrant_world.model.ListedCard;
-import com.test.fragrant_world.model.News;
-import com.test.fragrant_world.model.TematicSet;
+import com.test.fragrant_world.listener.SimpleItemClickListener;
+import com.test.fragrant_world.model.Catalog;
 
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-
-import java.util.ArrayList;
 
 
 public class CatalogFragment extends BaseFragment {
@@ -41,13 +38,13 @@ public class CatalogFragment extends BaseFragment {
 
     private ListedCardAdapter newsAdapter;
 
+    private ProductAdapter productAdapter;
+
+    private SectionsAdapter sectionsAdapter;
+
     private Request request;
 
-    private ArrayList<Banner> banners;
-
-    private ArrayList<ListedCard> tematicSets;
-
-    private ArrayList<ListedCard> news;
+    private Catalog catalogModel;
 
     @Override
     public void onResume() {
@@ -62,6 +59,17 @@ public class CatalogFragment extends BaseFragment {
         tematicSetsAdapter = new ListedCardAdapter();
         presentationAdapter = new PresentationAdapter(getChildFragmentManager());
         newsAdapter = new ListedCardAdapter();
+        sectionsAdapter = new SectionsAdapter(createSectionClickListener());
+        productAdapter = new ProductAdapter();
+    }
+
+    private SimpleItemClickListener createSectionClickListener() {
+        return new SimpleItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                productAdapter.setProducts(catalogModel.getViewedProducts().get(position).getProducts());
+            }
+        };
     }
 
     @Override
@@ -80,6 +88,12 @@ public class CatalogFragment extends BaseFragment {
         RecyclerView newsList = (RecyclerView) fragmentView.findViewById(R.id.news_list);
         newsList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         newsList.setAdapter(newsAdapter);
+        RecyclerView products = (RecyclerView) fragmentView.findViewById(R.id.products_list);
+        products.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        products.setAdapter(productAdapter);
+        RecyclerView sections = (RecyclerView) fragmentView.findViewById(R.id.sections_list);
+        sections.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        sections.setAdapter(sectionsAdapter);
         request = new Request.Builder().httpRequest(Queries.catalog()).view(fragmentView)
                 .listener(createCatalogListener()).postParams(MultipartEntityBuilder.create()
                         .build()).build();
@@ -110,25 +124,13 @@ public class CatalogFragment extends BaseFragment {
             @Override
             public void onAnswerReceived(JSON jsonObject) {
                 JSON catalog = jsonObject.getJSONObject("catalog");
-                JSONArray bannersArr = catalog.getArray("banners");
-                banners = new ArrayList<>();
-                for (int i = 0; i < bannersArr.size(); i++) {
-                    banners.add(new Banner(bannersArr.getJSONObject(i)));
-                }
-                indicatorAdapter.setSize(banners.size());
-                presentationAdapter.setBanners(banners);
-                tematicSets = new ArrayList<>();
-                JSONArray tematicSetsArr = catalog.getArray("tematicSets");
-                for (int i = 0; i < tematicSetsArr.size(); i++) {
-                    tematicSets.add(new TematicSet(tematicSetsArr.getJSONObject(i)));
-                }
-                tematicSetsAdapter.setListedCards(tematicSets);
-                JSONArray newsArr = catalog.getArray("news");
-                news = new ArrayList<>();
-                for (int i = 0; i < newsArr.size(); i++) {
-                    news.add(new News(newsArr.getJSONObject(i)));
-                }
-                newsAdapter.setListedCards(news);
+                catalogModel = new Catalog(catalog);
+                indicatorAdapter.setSize(catalogModel.getBanners().size());
+                presentationAdapter.setBanners(catalogModel.getBanners());
+                tematicSetsAdapter.setListedCards(catalogModel.getTematicSets());
+                newsAdapter.setListedCards(catalogModel.getNews());
+                productAdapter.setProducts(catalogModel.getViewedProducts().get(0).getProducts());
+                sectionsAdapter.setSections(catalogModel.getViewedProducts());
                 fragmentView.findViewById(R.id.catalog_layout).setVisibility(View.VISIBLE);
                 Log.e("Answer:" , "CATALOG");
             }
