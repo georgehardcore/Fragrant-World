@@ -1,37 +1,27 @@
 package com.test.fragrant_world.http;
 
 
-import android.view.View;
-
 import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.http.json.JSON;
+import com.test.fragrant_world.listener.LoadingListener;
 
 import org.apache.http.HttpEntity;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-public class Request implements HttpRequestListener, View.OnClickListener {
+public class Request implements HttpRequestListener {
 
-    private View view;
+    private boolean loading;
 
     private HttpEntity post;
 
     private String httpRequest;
 
-    private HttpResponseListener listener;
+    private LoadingListener listener;
 
     private Request(Builder builder) {
-        view = builder.view;
         listener = builder.listener;
-        view.findViewById(R.id.retry_button).setOnClickListener(this);
         post = builder.post;
         httpRequest = builder.httpRequest;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.retry_button) execute();
     }
 
     @Override
@@ -41,53 +31,46 @@ public class Request implements HttpRequestListener, View.OnClickListener {
 
     @Override
     public void onRequestStart() {
-        view.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        listener.showLoading();
+        loading = true;
     }
 
     @Override
     public void onRequestEnd() {
-        view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        listener.hideLoading();
+        loading = false;
     }
 
     @Override
     public void onConnectionError() {
-        view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
-        view.findViewById(R.id.error_view).setVisibility(View.VISIBLE);
+        loading = false;
         App.showToast(R.string.error_1);
     }
 
     @Override
     public void onAnswerReceived(JSON json) {
-        view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
-        view.findViewById(R.id.error_view).setVisibility(View.GONE);
         if (listener != null) listener.onAnswerReceived(json);
+        loading = false;
+    }
+
+    public boolean isLoading() {
+        return loading;
     }
 
     @Override
     public void onError(String error, int code) {
-        view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
-        view.findViewById(R.id.error_view).setVisibility(View.VISIBLE);
         if (listener != null) listener.onError(error, code);
         if (error != null) App.showToast(error);
     }
 
-
-
     /** Instance builder class. */
     public static class Builder {
-
-        private View view;
 
         private HttpEntity post;
 
         private String httpRequest;
 
-        private HttpResponseListener listener;
-
-        public Builder view(View progressView) {
-            this.view = progressView;
-            return this;
-        }
+        private LoadingListener listener;
 
         public Builder postParams(HttpEntity post) {
             this.post = post;
@@ -99,7 +82,7 @@ public class Request implements HttpRequestListener, View.OnClickListener {
             return this;
         }
 
-        public Builder listener(HttpResponseListener listener) {
+        public Builder listener(LoadingListener listener) {
             this.listener = listener;
             return this;
         }

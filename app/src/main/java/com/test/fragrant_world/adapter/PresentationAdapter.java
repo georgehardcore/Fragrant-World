@@ -8,6 +8,7 @@ import com.test.fragrant_world.fragment.SlideFragment;
 import com.test.fragrant_world.model.Banner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /** PresentationAdapter adapter. */
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class PresentationAdapter extends FragmentPagerAdapter {
 
     /** Images ids. */
-    private ArrayList<Banner> banners = new ArrayList<>();
+    private List<Banner> banners = new ArrayList<>();
 
     /** PresentationAdapter constructor.
      * @param fragmentManager FragmentManager
@@ -24,7 +25,7 @@ public class PresentationAdapter extends FragmentPagerAdapter {
         super(fragmentManager);
     }
 
-    public void setBanners(ArrayList<Banner> banners) {
+    public void setBanners(List<Banner> banners) {
         this.banners = banners;
         notifyDataSetChanged();
     }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,18 @@ import com.test.fragrant_world.adapter.ListedCardAdapter;
 import com.test.fragrant_world.adapter.PresentationAdapter;
 import com.test.fragrant_world.adapter.ProductAdapter;
 import com.test.fragrant_world.adapter.SectionsAdapter;
-import com.test.fragrant_world.http.HttpResponseListener;
-import com.test.fragrant_world.http.Queries;
-import com.test.fragrant_world.http.Request;
-import com.test.fragrant_world.http.json.JSON;
 import com.test.fragrant_world.listener.SimpleItemClickListener;
-import com.test.fragrant_world.model.Catalog;
+import com.test.fragrant_world.model.Banner;
+import com.test.fragrant_world.model.ListedCard;
+import com.test.fragrant_world.model.Product;
+import com.test.fragrant_world.model.Section;
+import com.test.fragrant_world.presenter.CatalogPresenter;
+import com.test.fragrant_world.view.CatalogView;
 
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import java.util.List;
 
 
-public class CatalogFragment extends BaseFragment {
+public class CatalogFragment extends BaseFragment implements CatalogView {
 
     private View fragmentView;
     /** Indicator adapter. */
@@ -42,9 +42,7 @@ public class CatalogFragment extends BaseFragment {
 
     private SectionsAdapter sectionsAdapter;
 
-    private Request request;
-
-    private Catalog catalogModel;
+    private CatalogPresenter preseneter;
 
     @Override
     public void onResume() {
@@ -55,21 +53,18 @@ public class CatalogFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preseneter = new CatalogPresenter();
         indicatorAdapter = new IndicatorAdapter();
         tematicSetsAdapter = new ListedCardAdapter();
         presentationAdapter = new PresentationAdapter(getChildFragmentManager());
         newsAdapter = new ListedCardAdapter();
-        sectionsAdapter = new SectionsAdapter(createSectionClickListener());
-        productAdapter = new ProductAdapter();
-    }
-
-    private SimpleItemClickListener createSectionClickListener() {
-        return new SimpleItemClickListener() {
+        sectionsAdapter = new SectionsAdapter(new SimpleItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                productAdapter.setProducts(catalogModel.getViewedProducts().get(position).getProducts());
+                preseneter.onSectionClicked(position);
             }
-        };
+        });
+        productAdapter = new ProductAdapter();
     }
 
     @Override
@@ -94,9 +89,6 @@ public class CatalogFragment extends BaseFragment {
         RecyclerView sections = (RecyclerView) fragmentView.findViewById(R.id.sections_list);
         sections.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         sections.setAdapter(sectionsAdapter);
-        request = new Request.Builder().httpRequest(Queries.catalog()).view(fragmentView)
-                .listener(createCatalogListener()).postParams(MultipartEntityBuilder.create()
-                        .build()).build();
         return fragmentView;
     }
 
@@ -119,32 +111,44 @@ public class CatalogFragment extends BaseFragment {
         };
     }
 
-    private HttpResponseListener createCatalogListener() {
-        return new HttpResponseListener() {
-            @Override
-            public void onAnswerReceived(JSON jsonObject) {
-                JSON catalog = jsonObject.getJSONObject("catalog");
-                catalogModel = new Catalog(catalog);
-                indicatorAdapter.setSize(catalogModel.getBanners().size());
-                presentationAdapter.setBanners(catalogModel.getBanners());
-                tematicSetsAdapter.setListedCards(catalogModel.getTematicSets());
-                newsAdapter.setListedCards(catalogModel.getNews());
-                productAdapter.setProducts(catalogModel.getViewedProducts().get(0).getProducts());
-                sectionsAdapter.setSections(catalogModel.getViewedProducts());
-                fragmentView.findViewById(R.id.catalog_layout).setVisibility(View.VISIBLE);
-                Log.e("Answer:" , "CATALOG");
-            }
 
-            @Override
-            public void onError(String error, int code) {
-                //do nothing
-            }
-        };
+    public void showNews(List<ListedCard> newsList) {
+        newsAdapter.addAll(newsList);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        request.execute();
+
+    public void showTematicSets(List<ListedCard> tematicSets) {
+        tematicSetsAdapter.addAll(tematicSets);
+    }
+
+
+    public void showBanners(List<Banner> banners) {
+        presentationAdapter.setBanners(banners);
+    }
+
+
+    public void showSections(List<Section> sections) {
+        sectionsAdapter.setSections(sections);
+    }
+
+
+    public void showPrducts(List<Product> products) {
+
+    }
+
+
+    public void showLayout() {
+        fragmentView.findViewById(R.id.catalog_layout).setVisibility(View.VISIBLE);
+    }
+
+
+    public void showLoading() {
+        fragmentView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        fragmentView.findViewById(R.id.error_view).setVisibility(View.GONE);
+    }
+
+
+    public void onError() {
+
     }
 }

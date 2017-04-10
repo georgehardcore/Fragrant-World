@@ -1,7 +1,9 @@
 package com.test.fragrant_world.model;
 
 
-public interface ListedCard {
+import android.os.Parcelable;
+
+public interface ListedCard extends Parcelable {
 
     long getId();
 

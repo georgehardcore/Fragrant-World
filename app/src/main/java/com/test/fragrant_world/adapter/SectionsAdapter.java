@@ -12,11 +12,12 @@ import com.test.fragrant_world.listener.SimpleItemClickListener;
 import com.test.fragrant_world.model.Section;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Section> sections = new ArrayList<>();
+    private List<Section> sections = new ArrayList<>();
 
     private SimpleItemClickListener listener;
 
@@ -43,7 +44,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         sectionHolder.name.setText(section.getName());
     }
 
-    public void setSections(ArrayList<Section> sections) {
+    public void setSections(List<Section> sections) {
         this.sections = sections;
         notifyDataSetChanged();
     }
@@ -65,7 +66,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public void onClick(View view) {
-            listener.onItemClick(view, getAdapterPosition());
+            if (listener != null) listener.onItemClick(view, getAdapterPosition());
             selectedPosition = getAdapterPosition();
             notifyDataSetChanged();
         }

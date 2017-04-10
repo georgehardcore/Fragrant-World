@@ -8,7 +8,7 @@ import com.test.fragrant_world.http.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class Catalog implements Parcelable {
+public class CatalogModel implements Parcelable {
 
     private ArrayList<Banner> banners;
 
@@ -18,7 +18,7 @@ public class Catalog implements Parcelable {
 
     private ArrayList<Section> viewedProducts;
 
-    public Catalog(JSON json) {
+    public CatalogModel(JSON json) {
         JSONArray bannersArr = json.getArray("banners");
         banners = new ArrayList<>();
         for (int i = 0; i < bannersArr.size(); i++) {
@@ -43,22 +43,22 @@ public class Catalog implements Parcelable {
         }
     }
 
-    protected Catalog(Parcel in) {
+    protected CatalogModel(Parcel in) {
         banners = in.createTypedArrayList(Banner.CREATOR);
         tematicSets = in.createTypedArrayList(TematicSet.CREATOR);
         news = in.createTypedArrayList(News.CREATOR);
         viewedProducts = in.createTypedArrayList(Section.CREATOR);
     }
 
-    public static final Creator<Catalog> CREATOR = new Creator<Catalog>() {
+    public static final Creator<CatalogModel> CREATOR = new Creator<CatalogModel>() {
         @Override
-        public Catalog createFromParcel(Parcel in) {
-            return new Catalog(in);
+        public CatalogModel createFromParcel(Parcel in) {
+            return new CatalogModel(in);
         }
 
         @Override
-        public Catalog[] newArray(int size) {
-            return new Catalog[size];
+        public CatalogModel[] newArray(int size) {
+            return new CatalogModel[size];
         }
     };
 
