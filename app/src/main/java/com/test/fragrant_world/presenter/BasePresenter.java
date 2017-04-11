@@ -22,7 +22,7 @@ public abstract class BasePresenter<M, V> {
         }
     }
 
-    public void bindView(@NonNull V view) {
+    public void bindView(V view) {
         this.view = new WeakReference<>(view);
         if (check()) {
             updateView();

@@ -8,9 +8,9 @@ import org.json.JSONException;
 public class JSONArray {
 
     /** JSON array instance. */
-    private final org.json.JSONArray array;
+    private org.json.JSONArray array;
     /** Length. */
-    private final int length;
+    private int length;
 
     /**
      * Constructor with parameters.
@@ -19,6 +19,15 @@ public class JSONArray {
     public JSONArray(org.json.JSONArray array) {
         this.array = array;
         this.length = array.length();
+    }
+
+    public JSONArray(String jsonString) {
+        try {
+            this.array = new org.json.JSONArray(jsonString);
+            this.length = array.length();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

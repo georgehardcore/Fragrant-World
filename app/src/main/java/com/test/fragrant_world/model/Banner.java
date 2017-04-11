@@ -1,11 +1,13 @@
 package com.test.fragrant_world.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.test.fragrant_world.database.BannerDao;
 import com.test.fragrant_world.http.json.JSON;
 
-public class Banner  implements Parcelable {
+public class Banner implements Parcelable {
 
     private String image;
 
@@ -36,6 +38,12 @@ public class Banner  implements Parcelable {
             return new Banner[size];
         }
     };
+
+    public Banner(Cursor cursor) {
+        image = cursor.getString(cursor.getColumnIndex(BannerDao.KEY_IMAGE));
+        description = cursor.getString(cursor.getColumnIndex(BannerDao.KEY_DESCRIPTION));
+        header = cursor.getString(cursor.getColumnIndex(BannerDao.KEY_HEADER));
+    }
 
     public String getImage() {
         return image;

@@ -1,8 +1,11 @@
 package com.test.fragrant_world.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.test.fragrant_world.database.TematicSetDao;
+import com.test.fragrant_world.database.ViewedProductsDao;
 import com.test.fragrant_world.http.json.JSON;
 
 
@@ -24,6 +27,12 @@ public class TematicSet implements Parcelable, ListedCard {
         id = in.readLong();
         img = in.readString();
         description = in.readString();
+    }
+
+    public TematicSet(Cursor cursor) {
+        id = cursor.getLong(cursor.getColumnIndex(TematicSetDao.KEY_ID));
+        img = cursor.getString(cursor.getColumnIndex(TematicSetDao.KEY_IMAGE));
+        description = cursor.getString(cursor.getColumnIndex(TematicSetDao.KEY_DESCRIPTION));
     }
 
     @Override

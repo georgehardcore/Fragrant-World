@@ -1,8 +1,11 @@
 package com.test.fragrant_world.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.test.fragrant_world.database.NewsDao;
+import com.test.fragrant_world.database.TematicSetDao;
 import com.test.fragrant_world.http.json.JSON;
 
 
@@ -25,6 +28,12 @@ public class News implements Parcelable, ListedCard {
         id = in.readLong();
         img = in.readString();
         description = in.readString();
+    }
+
+    public News(Cursor cursor) {
+        id = cursor.getLong(cursor.getColumnIndex(NewsDao.KEY_ID));
+        img = cursor.getString(cursor.getColumnIndex(NewsDao.KEY_IMAGE));
+        description = cursor.getString(cursor.getColumnIndex(NewsDao.KEY_DESCRIPTION));
     }
 
     @Override

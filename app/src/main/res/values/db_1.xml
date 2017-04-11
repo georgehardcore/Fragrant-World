@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="create_banners_table">
+
+        CREATE TABLE [Banners] (
+        [image] TEXT NULL,
+        [description] TEXT NULL
+        [header] TEXT NULL
+        );
+
+    </string>
+
+    <string name="create_viewed_products_table">
+
+        CREATE TABLE [WorkoutPrograms] (
+        [name] TEXT NOT NULL,
+        [products] TEXT NOT NULL
+        );
+
+    </string>
+
+    <string name="create_news_table">
+
+        CREATE TABLE [News] (
+        [id] INTEGER NOT NULL PRIMARY KEY,
+        [image] TEXT NOT NULL,
+        [description] TEXT NOT NULL,
+        );
+
+    </string>
+
+    <string name="create_tematic_sets_table">
+
+        CREATE TABLE [TematicSets] (
+        [id] INTEGER NOT NULL PRIMARY KEY,
+        [image] TEXT NOT NULL,
+        [description] TEXT NOT NULL,
+        );
+
+    </string>
+
+</resources>
