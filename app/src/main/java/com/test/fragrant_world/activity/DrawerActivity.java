@@ -5,9 +5,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
+import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.fragment.NavigationDrawerFragment;
 import com.test.fragrant_world.listener.PartitionSelectedListener;
+import com.test.fragrant_world.model.Partition;
+
+import java.util.ArrayList;
 
 /** Drawer abstract activity. */
 public abstract class DrawerActivity extends NavigationActivity implements PartitionSelectedListener {
@@ -23,7 +27,6 @@ public abstract class DrawerActivity extends NavigationActivity implements Parti
         }
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,6 @@
 package com.test.fragrant_world.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +9,21 @@ import android.widget.TextView;
 
 import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
+import com.test.fragrant_world.fragment.NavigationDrawerFragment;
 import com.test.fragrant_world.listener.DrawerClickListener;
 import com.test.fragrant_world.model.Partition;
-
-import java.util.ArrayList;
+import com.test.fragrant_world.presenter.DrawerPresenter;
+import com.test.fragrant_world.view.DrawerItem;
+import com.test.fragrant_world.view.LogoItem;
+import com.test.fragrant_world.view.MvpViewHolder;
 
 /** Drawer item layout adapter. */
 @SuppressWarnings("PMD")
-public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPresenter, MvpViewHolder<DrawerPresenter>> {
 
-    /** User item id. */
-    public static final int LOGO = 11;
-    /** Partitions array list. */
-    private ArrayList<Partition> partitions = new ArrayList<>();
+
     /** Selected position. */
-    private Integer selectedPosition;
+    private int selectedPosition;
     /** Drawer click listener. */
     private final DrawerClickListener listener;
 
@@ -33,28 +33,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * */
     public DrawerAdapter(DrawerClickListener listener) {
         this.listener = listener;
-        selectedPosition = 0;
-    }
-
-    /** Update model. */
-    public void update() { //SUPPRESS CHECKSTYLE Method Length
-        partitions = new ArrayList<>();
-        partitions.add(new Partition("", LOGO));
-        partitions.add(new Partition(App.getStr(R.string.catalog),
-                R.drawable.ic_action_catalog, R.id.nav_catalog));
-        partitions.add(new Partition(App.getStr(R.string.sets),
-                R.drawable.ic_action_sets, R.id.nav_sets));
-        partitions.add(new Partition(App.getStr(R.string.shops),
-                R.drawable.ic_action_shops, R.id.nav_shops));
-        partitions.add(new Partition(App.getStr(R.string.actions),
-                R.drawable.ic_action_actions, R.id.nav_actions));
-        partitions.add(new Partition(App.getStr(R.string.profile),
-                R.drawable.ic_action_profile, R.id.nav_profile));
-        notifyDataSetChanged();
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int layoutID) {
+    public MvpViewHolder<DrawerPresenter> onCreateViewHolder(ViewGroup viewGroup, int layoutID) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(layoutID, viewGroup, false);
         if (layoutID == R.layout.list_item_drawer_simple) {
@@ -66,57 +48,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return null;
     }
 
-    @Override//SUPPRESS CHECKSTYLE Method Length
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) { //SUPPRESS CHECKSTYLE Method Length
-        Partition partition = partitions.get(i);
-        if (viewHolder instanceof ViewHolderItem) {
-            ViewHolderItem item = (ViewHolderItem) viewHolder;
-            setupSimpleItemHolder(item, i, partition);
-        }
-    }
-
-    /**
-     * Setup simple item holder.
-     * @param item holder item
-     * @param i holder position
-     * @param partition partition instance
-     */
-    private void setupSimpleItemHolder(ViewHolderItem item, int i, Partition partition) { //SUPPRESS CHECKSTYLE Method Length
-        boolean selected = i == selectedPosition;
-        item.itemView.setBackgroundColor(App.getClr(selected
-                ? R.color.drawer_selected_color
-                : R.color.white));
-        item.icon.setBackground(App.getImage(partition.getImageID()));
-        item.text.setText(partition.getName());
-    }
-
     @Override
     public int getItemViewType(int position) {
-        Partition partition = partitions.get(position);
-        if (partition.getID() == LOGO) {
+        Partition partition = getItem(position);
+        if (partition.getID() == NavigationDrawerFragment.LOGO) {
             return R.layout.list_item_drawer_user;
         } else {
             return R.layout.list_item_drawer_simple;
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return partitions.size();
-    }
-
-    /**
-     * Get position by partition id.
-     * @param id id
-     * @return position
-     */
-    public int getPositionById(int id) {
-        for (Partition partition: partitions) {
-            if (partition.getID() == id) {
-                return partitions.indexOf(partition);
-            }
-        }
-        return -1;
     }
 
     /**
@@ -128,16 +67,20 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    /**
-     * Getter for current id.
-     * @return current id
-     */
-    public int getCurrentID() {
-        return partitions.get(selectedPosition).getID();
+    @Override
+    protected DrawerPresenter onCreatePresenter(@NonNull Partition model) {
+        DrawerPresenter presenter = new DrawerPresenter();
+        presenter.setModel(model);
+        return presenter;
+    }
+
+    @Override
+    protected Object getModelId(@NonNull Partition model) {
+        return model.getID();
     }
 
     /** View holder for simple item. */
-    class ViewHolderItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolderItem extends MvpViewHolder<DrawerPresenter> implements View.OnClickListener, DrawerItem {
 
         /** Image button. */
         private final TextView text;
@@ -160,14 +103,31 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View view) {
-            Partition partition = partitions.get(getAdapterPosition());
+            Partition partition = getItem(getAdapterPosition());
             listener.onDrawerItemClicked(view, getAdapterPosition(), partition.getID());
+        }
+
+        @Override
+        public void setName(String name) {
+            text.setText(name);
+        }
+
+        @Override
+        public void setImage(int imageID) {
+            icon.setBackground(App.getImage(imageID));
+        }
+
+        @Override
+        public void setupSelection() {
+            boolean selected = getAdapterPosition() == selectedPosition;
+            itemView.setBackgroundColor(App.getClr(selected
+                    ? R.color.drawer_selected_color
+                    : R.color.white));
         }
     }
 
     /** View holder for user item. */
-    class ViewHolderUser extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    class ViewHolderUser extends  MvpViewHolder<DrawerPresenter> implements LogoItem {
 
         /**
          * Constructor with parameters.
@@ -175,13 +135,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          */
         public ViewHolderUser(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            Partition partition = partitions.get(getAdapterPosition());
-            listener.onDrawerItemClicked(view, getAdapterPosition(), partition.getID());
-        }
     }
 }

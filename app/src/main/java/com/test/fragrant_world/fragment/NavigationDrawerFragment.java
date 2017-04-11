@@ -19,6 +19,9 @@ import com.test.fragrant_world.activity.WorldActivity;
 import com.test.fragrant_world.adapter.DrawerAdapter;
 import com.test.fragrant_world.listener.DrawerClickListener;
 import com.test.fragrant_world.listener.PartitionSelectedListener;
+import com.test.fragrant_world.model.Partition;
+
+import java.util.ArrayList;
 
 
 /** Navigation drawer fragment. */
@@ -42,13 +45,19 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     /** Drawer enable flag. */
     private boolean enabled;
 
+    /** User item id. */
+    public static final int LOGO = 11;
+    /** Partitions array list. */
+    private ArrayList<Partition> partitions = new ArrayList<>();
+
     private PartitionSelectedListener listener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         drawerAdapter = new DrawerAdapter(this);
-        drawerAdapter.update();
+        init();
+        drawerAdapter.setAll(partitions);
         if (savedInstanceState != null) {
             selectedPosition = savedInstanceState.getInt(SELECTED_DRAWER_POSITION);
         }
@@ -57,6 +66,23 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     @Override
     public void onDrawerItemClicked(View view, int position, int partitionID) {
         selectItem(position, partitionID);
+    }
+
+
+    /** Init model. */
+    public void init() { //SUPPRESS CHECKSTYLE Method Length
+        partitions = new ArrayList<>();
+        partitions.add(new Partition("", LOGO));
+        partitions.add(new Partition(App.getStr(R.string.catalog),
+                R.drawable.ic_action_catalog, R.id.nav_catalog));
+        partitions.add(new Partition(App.getStr(R.string.sets),
+                R.drawable.ic_action_sets, R.id.nav_sets));
+        partitions.add(new Partition(App.getStr(R.string.shops),
+                R.drawable.ic_action_shops, R.id.nav_shops));
+        partitions.add(new Partition(App.getStr(R.string.actions),
+                R.drawable.ic_action_actions, R.id.nav_actions));
+        partitions.add(new Partition(App.getStr(R.string.profile),
+                R.drawable.ic_action_profile, R.id.nav_profile));
     }
 
     @Override
@@ -72,14 +98,6 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
      */
     public String getVersion() {
         return BuildConfig.VERSION_NAME;
-    }
-
-    /**
-     * Getter for current id.
-     * @return current id
-     */
-    public int getCurrentID() {
-        return drawerAdapter.getCurrentID();
     }
 
     /** Open drawer. */
@@ -119,7 +137,21 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
 
     /** Updates adapter. */
     public void updateAdapter() {
-        drawerAdapter.update();
+        drawerAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Get position by partition id.
+     * @param id id
+     * @return position
+     */
+    public int getPositionById(int id) {
+        for (Partition partition: partitions) {
+            if (partition.getID() == id) {
+                return partitions.indexOf(partition);
+            }
+        }
+        return -1;
     }
 
     /**
@@ -185,7 +217,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
      * @param id id
      */
     public void selectPartitionByID(int id) {
-        int position = drawerAdapter.getPositionById(id);
+        int position = getPositionById(id);
         selectItem(position, id);
     }
 
