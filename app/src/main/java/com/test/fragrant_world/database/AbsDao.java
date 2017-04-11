@@ -119,6 +119,17 @@ public abstract class AbsDao<T> {
         return models.isEmpty() ? null : models.get(0);
     }
 
+
+    /**
+     * Delete all project.
+     * @return true if deleted
+     */
+    public boolean clearTable() {
+        int affectedRowsNumber = getContentResolver().delete(
+                getTableUri(), null, null);
+        return affectedRowsNumber == 1;
+    }
+
     /**
      * Insert item to table.
      * @param item item

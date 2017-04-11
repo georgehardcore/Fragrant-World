@@ -32,7 +32,7 @@ public class FWContentProvider extends ContentProvider {
     /** Workout programs table name. */
     public static final String TEMATIC_SETS_TABLE = "TematicSets";
 
-    public static final String NEWS_TABLE = "NewsTable";
+    public static final String NEWS_TABLE = "News";
     /** Name of parameter that restrict number of
      * measurements in result table of query() method. */
     public static final String QUERY_PARAMETER_LIMIT = "limit";

@@ -24,7 +24,7 @@ public class Query extends AsyncTask<String, Void, String> {
     /** Http response listener. */
     private final HttpRequestListener listener;
     /** Query json post. */
-    private HttpEntity post;;
+    private HttpEntity post;
     /** Unexpected error. */
     private static final String UNEXPECTED_ERROR = "unexpected api error";
     /** Is server unavailable. */

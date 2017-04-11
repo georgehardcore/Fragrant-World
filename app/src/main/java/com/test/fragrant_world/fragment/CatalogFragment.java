@@ -17,6 +17,7 @@ import com.test.fragrant_world.adapter.PresentationAdapter;
 import com.test.fragrant_world.adapter.ProductAdapter;
 import com.test.fragrant_world.adapter.SectionsAdapter;
 import com.test.fragrant_world.adapter.TematicSetAdapter;
+import com.test.fragrant_world.http.Request;
 import com.test.fragrant_world.listener.SimpleItemClickListener;
 import com.test.fragrant_world.model.Banner;
 import com.test.fragrant_world.model.News;
@@ -161,6 +162,9 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
 
 
     public void onError(String error, int code) {
+        if (code == Request.NO_CONNECTION) {
+            return;
+        }
         fragmentView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.error_view).setVisibility(View.VISIBLE);
     }

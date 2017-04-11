@@ -22,7 +22,9 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
         view().setTematicSets(model.getTematicSets());
         view().setBanners(model.getBanners());
         view().setSections(model.getViewedProducts());
-        view().setProducts(model.getViewedProducts().get(0).getProducts());
+        if (!model.getViewedProducts().isEmpty()) {
+            view().setProducts(model.getViewedProducts().get(0).getProducts());
+        }
     }
 
     @Override
@@ -32,6 +34,12 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
                 .httpRequest(Queries.catalog()).listener(this).build();
         if (model == null && !request.isLoading()) {
             view().showLoading();
+            CatalogModel catalogModel = new CatalogModel();
+            if (!catalogModel.isEmpty()) {
+                setModel(catalogModel);
+                updateView();
+                view.showLayout();
+            }
             request.execute();
         } else {
             updateView();

@@ -3,6 +3,10 @@ package com.test.fragrant_world.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.test.fragrant_world.database.BannerDao;
+import com.test.fragrant_world.database.NewsDao;
+import com.test.fragrant_world.database.TematicSetDao;
+import com.test.fragrant_world.database.ViewedProductsDao;
 import com.test.fragrant_world.http.json.JSON;
 import com.test.fragrant_world.http.json.JSONArray;
 
@@ -19,28 +23,53 @@ public class CatalogModel implements Parcelable {
 
     private ArrayList<Section> viewedProducts;
 
+    public CatalogModel() {
+        tematicSets = new TematicSetDao().getAllData();
+        news = new NewsDao().getAllData();
+        viewedProducts = new ViewedProductsDao().getAllData();
+        banners = new BannerDao().getAllData();
+    }
+
+    public boolean isEmpty() {
+        return tematicSets.isEmpty();
+    }
+
     public CatalogModel(JSON json) {
         JSONArray bannersArr = json.getArray("banners");
+        new BannerDao().clearTable();
         banners = new ArrayList<>();
         for (int i = 0; i < bannersArr.size(); i++) {
-            banners.add(new Banner(bannersArr.getJSONObject(i)));
+            Banner banner = new Banner(bannersArr.getJSONObject(i));
+            banners.add(banner);
+            new BannerDao().insertItem(banner);
         }
 
-        tematicSets = new ArrayList<>();
         JSONArray tematicSetsArr = json.getArray("tematicSets");
+        new TematicSetDao().clearTable();
+        tematicSets = new ArrayList<>();
         for (int i = 0; i < tematicSetsArr.size(); i++) {
-            tematicSets.add(new TematicSet(tematicSetsArr.getJSONObject(i)));
+            TematicSet tematicSet = new TematicSet(tematicSetsArr.getJSONObject(i));
+            tematicSets.add(tematicSet);
+            new TematicSetDao().insertItem(tematicSet);
         }
+
 
         JSONArray newsArr = json.getArray("news");
+        new NewsDao().clearTable();
         news = new ArrayList<>();
         for (int i = 0; i < newsArr.size(); i++) {
-            news.add(new News(newsArr.getJSONObject(i)));
+            News newsItem =new News(newsArr.getJSONObject(i));
+            news.add(newsItem);
+            new NewsDao().insertItem(newsItem);
         }
-        viewedProducts = new ArrayList<>();
+
         JSONArray sectionsArr = json.getArray("viewedProducts");
+        viewedProducts = new ArrayList<>();
+        new ViewedProductsDao().clearTable();
         for (int i = 0; i < sectionsArr.size(); i++) {
-            viewedProducts.add(new Section(sectionsArr.getJSONObject(i)));
+            Section section = (new Section(sectionsArr.getJSONObject(i)));
+            viewedProducts.add(section);
+            new ViewedProductsDao().insertItem(section);
         }
     }
 

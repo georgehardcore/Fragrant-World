@@ -18,6 +18,8 @@ public class Request implements HttpRequestListener {
 
     private LoadingListener listener;
 
+    public static final int NO_CONNECTION = 1;
+
     private Request(Builder builder) {
         listener = builder.listener;
         post = builder.post;
@@ -44,7 +46,7 @@ public class Request implements HttpRequestListener {
     @Override
     public void onConnectionError() {
         loading = false;
-        listener.onError(App.getStr(R.string.error_1), 1);
+        listener.onError(App.getStr(R.string.error_1), NO_CONNECTION);
         App.showToast(R.string.error_1);
     }
 

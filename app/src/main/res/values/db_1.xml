@@ -5,7 +5,7 @@
 
         CREATE TABLE [Banners] (
         [image] TEXT NULL,
-        [description] TEXT NULL
+        [description] TEXT NULL,
         [header] TEXT NULL
         );
 
@@ -13,7 +13,7 @@
 
     <string name="create_viewed_products_table">
 
-        CREATE TABLE [WorkoutPrograms] (
+        CREATE TABLE [ViewedProducts] (
         [name] TEXT NOT NULL,
         [products] TEXT NOT NULL
         );
@@ -25,7 +25,7 @@
         CREATE TABLE [News] (
         [id] INTEGER NOT NULL PRIMARY KEY,
         [image] TEXT NOT NULL,
-        [description] TEXT NOT NULL,
+        [description] TEXT NOT NULL
         );
 
     </string>
@@ -35,7 +35,7 @@
         CREATE TABLE [TematicSets] (
         [id] INTEGER NOT NULL PRIMARY KEY,
         [image] TEXT NOT NULL,
-        [description] TEXT NOT NULL,
+        [description] TEXT NOT NULL
         );
 
     </string>
