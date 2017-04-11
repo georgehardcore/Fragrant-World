@@ -11,12 +11,12 @@ import com.test.fragrant_world.R;
 import com.test.fragrant_world.listener.SimpleItemClickListener;
 import com.test.fragrant_world.model.Section;
 import com.test.fragrant_world.presenter.SectionPresenter;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 import com.test.fragrant_world.view.SectionView;
 
 
-public class SectionsAdapter extends MvpRecyclerListAdapter<Section, SectionPresenter,
-        SectionsAdapter.SectionHolder>  {
+public class SectionsAdapter extends MVPRecyclerViewAdapter<Section, SectionPresenter,
+        SectionsAdapter.SectionHolder> {
 
     private SimpleItemClickListener listener;
 
@@ -46,7 +46,7 @@ public class SectionsAdapter extends MvpRecyclerListAdapter<Section, SectionPres
     }
 
 
-    class SectionHolder extends MvpViewHolder<SectionPresenter> implements View.OnClickListener, SectionView {
+    class SectionHolder extends MVPViewHolder<SectionPresenter> implements View.OnClickListener, SectionView {
 
         private final TextView name;
 

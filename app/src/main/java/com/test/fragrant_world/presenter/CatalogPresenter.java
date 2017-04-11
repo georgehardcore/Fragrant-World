@@ -33,6 +33,8 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
         if (model == null && !request.isLoading()) {
             view().showLoading();
             request.execute();
+        } else {
+            updateView();
         }
     }
 

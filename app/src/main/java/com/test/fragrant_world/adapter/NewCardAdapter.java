@@ -13,10 +13,10 @@ import com.test.fragrant_world.R;
 import com.test.fragrant_world.model.News;
 import com.test.fragrant_world.presenter.ListedCardPresenter;
 import com.test.fragrant_world.view.ListedCardView;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 
 
-public class NewCardAdapter extends MvpRecyclerListAdapter<News, ListedCardPresenter, NewCardAdapter.ListedCardHolder> {
+public class NewCardAdapter extends MVPRecyclerViewAdapter<News, ListedCardPresenter, NewCardAdapter.ListedCardHolder> {
 
     @Override
     public ListedCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,7 +39,7 @@ public class NewCardAdapter extends MvpRecyclerListAdapter<News, ListedCardPrese
         return model.getId();
     }
 
-    public class ListedCardHolder extends MvpViewHolder<ListedCardPresenter> implements ListedCardView {
+    public class ListedCardHolder extends MVPViewHolder<ListedCardPresenter> implements ListedCardView {
 
         private final ImageView imageCard;
 

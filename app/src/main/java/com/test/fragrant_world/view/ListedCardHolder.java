@@ -10,7 +10,7 @@ import com.test.fragrant_world.R;
 import com.test.fragrant_world.presenter.ListedCardPresenter;
 
 
-public class ListedCardHolder extends MvpViewHolder<ListedCardPresenter> implements ListedCardView {
+public class ListedCardHolder extends MVPViewHolder<ListedCardPresenter> implements ListedCardView {
 
     private final ImageView imageCard;
 

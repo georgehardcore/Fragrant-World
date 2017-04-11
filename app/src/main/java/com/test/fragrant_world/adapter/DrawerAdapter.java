@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
-import com.test.fragrant_world.fragment.NavigationDrawerFragment;
 import com.test.fragrant_world.listener.DrawerClickListener;
 import com.test.fragrant_world.model.Partition;
 import com.test.fragrant_world.presenter.DrawerPresenter;
+import com.test.fragrant_world.presenter.NavigationDrawerPresenter;
 import com.test.fragrant_world.view.DrawerItem;
 import com.test.fragrant_world.view.LogoItem;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 
 /** Drawer item layout adapter. */
 @SuppressWarnings("PMD")
-public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPresenter, MvpViewHolder<DrawerPresenter>> {
+public class DrawerAdapter extends MVPRecyclerViewAdapter<Partition, DrawerPresenter, MVPViewHolder<DrawerPresenter>> {
 
 
     /** Selected position. */
@@ -36,7 +36,7 @@ public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPrese
     }
 
     @Override
-    public MvpViewHolder<DrawerPresenter> onCreateViewHolder(ViewGroup viewGroup, int layoutID) {
+    public MVPViewHolder<DrawerPresenter> onCreateViewHolder(ViewGroup viewGroup, int layoutID) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(layoutID, viewGroup, false);
         if (layoutID == R.layout.list_item_drawer_simple) {
@@ -51,7 +51,7 @@ public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPrese
     @Override
     public int getItemViewType(int position) {
         Partition partition = getItem(position);
-        if (partition.getID() == NavigationDrawerFragment.LOGO) {
+        if (partition.getID() == NavigationDrawerPresenter.LOGO) {
             return R.layout.list_item_drawer_user;
         } else {
             return R.layout.list_item_drawer_simple;
@@ -80,7 +80,7 @@ public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPrese
     }
 
     /** View holder for simple item. */
-    class ViewHolderItem extends MvpViewHolder<DrawerPresenter> implements View.OnClickListener, DrawerItem {
+    class ViewHolderItem extends MVPViewHolder<DrawerPresenter> implements View.OnClickListener, DrawerItem {
 
         /** Image button. */
         private final TextView text;
@@ -126,8 +126,8 @@ public class DrawerAdapter extends MvpRecyclerListAdapter<Partition, DrawerPrese
         }
     }
 
-    /** View holder for user item. */
-    class ViewHolderUser extends  MvpViewHolder<DrawerPresenter> implements LogoItem {
+
+    class ViewHolderUser extends MVPViewHolder<DrawerPresenter> implements LogoItem {
 
         /**
          * Constructor with parameters.

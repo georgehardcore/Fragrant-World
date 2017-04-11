@@ -13,12 +13,12 @@ import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.model.Product;
 import com.test.fragrant_world.presenter.ProductPresenter;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 import com.test.fragrant_world.view.ProductView;
 
 
-public class ProductAdapter extends MvpRecyclerListAdapter<Product, ProductPresenter,
-        ProductAdapter.ProductHolder>  {
+public class ProductAdapter extends MVPRecyclerViewAdapter<Product, ProductPresenter,
+        ProductAdapter.ProductHolder> {
 
     @Override
     public ProductAdapter.ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,7 +40,7 @@ public class ProductAdapter extends MvpRecyclerListAdapter<Product, ProductPrese
     }
 
 
-    public class ProductHolder extends MvpViewHolder<ProductPresenter> implements ProductView {
+    public class ProductHolder extends MVPViewHolder<ProductPresenter> implements ProductView {
 
         private final TextView name;
 

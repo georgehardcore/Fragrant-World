@@ -13,23 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.fragrant_world.App;
-import com.test.fragrant_world.BuildConfig;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.activity.WorldActivity;
 import com.test.fragrant_world.adapter.DrawerAdapter;
 import com.test.fragrant_world.listener.DrawerClickListener;
 import com.test.fragrant_world.listener.PartitionSelectedListener;
 import com.test.fragrant_world.model.Partition;
+import com.test.fragrant_world.presenter.NavigationDrawerPresenter;
+import com.test.fragrant_world.view.NavigationDrawerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /** Navigation drawer fragment. */
 @SuppressWarnings("PMD")
-public class NavigationDrawerFragment extends Fragment implements DrawerClickListener {
+public class NavigationDrawerFragment extends Fragment implements DrawerClickListener, NavigationDrawerView {
 
-    /** Remember the position of the selected item. */
-    private static final String SELECTED_DRAWER_POSITION = "selected_drawer_position";
+
     /** Helper component that ties the action bar to the navigation drawer. */
     private ActionBarDrawerToggle navDrawerToggle;
     /** Navigation drawer layout. */
@@ -37,52 +37,37 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     /** Drawer list view. */
     private RecyclerView drawerList;
     /** Current fragment. */
-    private View fragmentContainerView;
-    /** Current selected drawer item position. */
-    private int selectedPosition = -1;
+    private View fragmentView;
     /** Drawer adapter. */
     private DrawerAdapter drawerAdapter;
     /** Drawer enable flag. */
     private boolean enabled;
 
-    /** User item id. */
-    public static final int LOGO = 11;
-    /** Partitions array list. */
-    private ArrayList<Partition> partitions = new ArrayList<>();
-
     private PartitionSelectedListener listener;
+
+    private NavigationDrawerPresenter presenter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.bindView(this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new NavigationDrawerPresenter();
         drawerAdapter = new DrawerAdapter(this);
-        init();
-        drawerAdapter.setAll(partitions);
-        if (savedInstanceState != null) {
-            selectedPosition = savedInstanceState.getInt(SELECTED_DRAWER_POSITION);
-        }
+    }
+
+    @Override
+    public void setDrawerItems(List<Partition> model) {
+        drawerAdapter.setAll(model);
     }
 
     @Override
     public void onDrawerItemClicked(View view, int position, int partitionID) {
-        selectItem(position, partitionID);
-    }
-
-
-    /** Init model. */
-    public void init() { //SUPPRESS CHECKSTYLE Method Length
-        partitions = new ArrayList<>();
-        partitions.add(new Partition("", LOGO));
-        partitions.add(new Partition(App.getStr(R.string.catalog),
-                R.drawable.ic_action_catalog, R.id.nav_catalog));
-        partitions.add(new Partition(App.getStr(R.string.sets),
-                R.drawable.ic_action_sets, R.id.nav_sets));
-        partitions.add(new Partition(App.getStr(R.string.shops),
-                R.drawable.ic_action_shops, R.id.nav_shops));
-        partitions.add(new Partition(App.getStr(R.string.actions),
-                R.drawable.ic_action_actions, R.id.nav_actions));
-        partitions.add(new Partition(App.getStr(R.string.profile),
-                R.drawable.ic_action_profile, R.id.nav_profile));
+        selectItem(position);
     }
 
     @Override
@@ -92,22 +77,14 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
         drawerList.setAdapter(drawerAdapter);
     }
 
-    /**
-     * Getter for version.
-     * @return version name
-     */
-    public String getVersion() {
-        return BuildConfig.VERSION_NAME;
-    }
-
     /** Open drawer. */
     public void open() {
-        drawerLayout.openDrawer(fragmentContainerView);
+        drawerLayout.openDrawer(fragmentView);
     }
 
     /** Close drawer. */
     public void close() {
-        drawerLayout.closeDrawer(fragmentContainerView);
+        drawerLayout.closeDrawer(fragmentView);
     }
 
     /** Disable navigation drawer toggle and gesture calling side menu. */
@@ -141,31 +118,17 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     }
 
     /**
-     * Get position by partition id.
-     * @param id id
-     * @return position
-     */
-    public int getPositionById(int id) {
-        for (Partition partition: partitions) {
-            if (partition.getID() == id) {
-                return partitions.indexOf(partition);
-            }
-        }
-        return -1;
-    }
-
-    /**
      *  Return drawer open state.
      * @return drawer open state
      * */
     public boolean isDrawerOpen() {
-        return drawerLayout != null && drawerLayout.isDrawerOpen(fragmentContainerView);
+        return drawerLayout != null && drawerLayout.isDrawerOpen(fragmentView);
     }
 
     /** Set up navigation drawer. */
     public void setUp(PartitionSelectedListener listener) {
         drawerLayout = (DrawerLayout) getContext().findViewById(R.id.drawer_layout);
-        fragmentContainerView = getActivity().findViewById(R.id.navigation_drawer);
+        fragmentView = getActivity().findViewById(R.id.navigation_drawer);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         setUpDrawerToggle();
         this.listener =  listener;
@@ -199,50 +162,48 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     /**
      * Select current fragment item.
      * @param position current selected item position
-     * @param id current selected position id
      **/
-    public void selectItem(int position, int id) {
-        if (selectedPosition == position && drawerLayout != null && isDrawerOpen()) {
-            drawerLayout.closeDrawer(fragmentContainerView);
+    public void selectItem(int position) {
+        presenter.selectItem(position);
+    }
+
+    @Override
+    public void selectPartitionByID(int id) {
+        int position = presenter.getPositionById(id);
+        int selection = presenter.getSelection();
+        if (selection == position && drawerLayout != null && isDrawerOpen()) {
+            drawerLayout.closeDrawer(fragmentView);
             return;
         }
-        if (selectedPosition == position) return;
+        if (selection == position) return;
         drawerAdapter.setSelection(position);
-        selectedPosition = position;
+        presenter.setSelection(position);
         if (listener != null) listener.onPartitionSelected(id);
         closeDrawerWithDelay();
-    }
-    /**
-     * Select partition by id.
-     * @param id id
-     */
-    public void selectPartitionByID(int id) {
-        int position = getPositionById(id);
-        selectItem(position, id);
     }
 
     /** Close drawer with delay. */
     private void closeDrawerWithDelay() {
-        if (drawerLayout != null && fragmentContainerView != null) {
-            fragmentContainerView.postDelayed(new Runnable() {
+        if (drawerLayout != null && fragmentView != null) {
+            fragmentView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    drawerLayout.closeDrawer(fragmentContainerView);
+                    drawerLayout.closeDrawer(fragmentView);
                 }
             }, 200);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SELECTED_DRAWER_POSITION, selectedPosition);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         navDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unbindView();
     }
 
     /**
@@ -260,5 +221,4 @@ public class NavigationDrawerFragment extends Fragment implements DrawerClickLis
     public WorldActivity getContext() {
         return (WorldActivity) getActivity();
     }
-
 }

@@ -11,7 +11,7 @@ import com.test.fragrant_world.presenter.ListedCardPresenter;
 import com.test.fragrant_world.view.ListedCardHolder;
 
 
-public class TematicSetAdapter extends MvpRecyclerListAdapter<TematicSet, ListedCardPresenter,
+public class TematicSetAdapter extends MVPRecyclerViewAdapter<TematicSet, ListedCardPresenter,
         ListedCardHolder> {
 
     @Override

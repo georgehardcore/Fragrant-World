@@ -23,7 +23,6 @@ public class WorldActivity extends DrawerActivity
         super.onCreate(savedInstanceState);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        drawerFragment.selectPartitionByID(R.id.nav_catalog);
     }
 
     @Override

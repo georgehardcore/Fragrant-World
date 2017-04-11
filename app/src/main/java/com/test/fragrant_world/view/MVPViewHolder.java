@@ -6,11 +6,11 @@ import android.view.View;
 
 import com.test.fragrant_world.presenter.BasePresenter;
 
-public abstract class MvpViewHolder<P extends BasePresenter> extends RecyclerView.ViewHolder {
+public abstract class MVPViewHolder<P extends BasePresenter> extends RecyclerView.ViewHolder {
 
     protected P presenter;
 
-    public MvpViewHolder(View itemView) {
+    public MVPViewHolder(View itemView) {
         super(itemView);
     }
 

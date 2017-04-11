@@ -1,17 +1,25 @@
 package com.test.fragrant_world.adapter;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.test.fragrant_world.presenter.BasePresenter;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH extends MvpViewHolder<P>> extends MVPRecyclerAdapter<M, P, VH> {
+/**
+ * MVP Abstract recycler view adapter using for MVP pattern for {@link RecyclerView.ViewHolder}
+ * @param <M> Model generic type
+ * @param <P> Presenter generic type
+ * @param <VH> View holder generic type
+ */
+public abstract class MVPRecyclerViewAdapter<M, P extends BasePresenter, VH extends MVPViewHolder<P>> extends MVPRecyclerAdapter<M, P, VH> {
 
     private final List<M> models;
 
-    public MvpRecyclerListAdapter() {
+    public MVPRecyclerViewAdapter() {
         models = new ArrayList<>();
     }
 

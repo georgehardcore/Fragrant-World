@@ -4,6 +4,11 @@ import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Base presenter class.
+ * @param <M> model generic type
+ * @param <V> view generic type
+ */
 public abstract class BasePresenter<M, V> {
 
     protected M model;
@@ -11,19 +16,15 @@ public abstract class BasePresenter<M, V> {
     private WeakReference<V> view;
 
     public void setModel(M model) {
-        resetState();
         this.model = model;
-        if (setupDone()) {
+        if (check()) {
             updateView();
         }
     }
 
-    protected void resetState() {
-    }
-
     public void bindView(@NonNull V view) {
         this.view = new WeakReference<>(view);
-        if (setupDone()) {
+        if (check()) {
             updateView();
         }
     }
@@ -42,7 +43,7 @@ public abstract class BasePresenter<M, V> {
 
     protected abstract void updateView();
 
-    protected boolean setupDone() {
+    protected boolean check() {
         return view() != null && model != null;
     }
 }

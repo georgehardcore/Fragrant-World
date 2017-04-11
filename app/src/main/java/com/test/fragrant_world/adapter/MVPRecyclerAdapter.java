@@ -1,15 +1,20 @@
 package com.test.fragrant_world.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.test.fragrant_world.presenter.BasePresenter;
-import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.MVPViewHolder;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class MVPRecyclerAdapter<M, P extends BasePresenter, VH extends MvpViewHolder> extends RecyclerView.Adapter<VH> {
+/**
+ * MVP Recycler View adapter presenters overlay.
+ * @param <M> Model generic type
+ * @param <P> Presenter generic type
+ * @param <VH> View holder generic type
+ */
+public abstract class MVPRecyclerAdapter<M, P extends BasePresenter, VH extends MVPViewHolder> extends RecyclerView.Adapter<VH> {
 
     protected final Map<Object, P> presenters;
 
@@ -17,19 +22,17 @@ public abstract class MVPRecyclerAdapter<M, P extends BasePresenter, VH extends 
         presenters = new HashMap<>();
     }
 
-    protected P getPresenter(@NonNull M model) {
+    protected P getPresenter(M model) {
         return presenters.get(getModelId(model));
     }
 
-    protected abstract P onCreatePresenter(@NonNull M model);
+    protected abstract P onCreatePresenter(M model);
 
-    protected abstract Object getModelId(@NonNull M model);
-
+    protected abstract Object getModelId(M model);
 
     @Override
     public void onViewRecycled(VH holder) {
         super.onViewRecycled(holder);
-
         holder.unbindPresenter();
     }
 

@@ -104,7 +104,7 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         return new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //do nothing
             }
 
             @Override
@@ -114,7 +114,7 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //do nothing
             }
         };
     }
@@ -166,8 +166,8 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.retry_button) presenter.onRetry();
+    public void onClick(View view) {
+        if (view.getId() == R.id.retry_button) presenter.onRetry();
     }
 
     @Override
