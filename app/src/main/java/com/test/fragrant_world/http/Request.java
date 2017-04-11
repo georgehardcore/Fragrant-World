@@ -44,6 +44,7 @@ public class Request implements HttpRequestListener {
     @Override
     public void onConnectionError() {
         loading = false;
+        listener.onError(App.getStr(R.string.error_1), 1);
         App.showToast(R.string.error_1);
     }
 
@@ -59,6 +60,7 @@ public class Request implements HttpRequestListener {
 
     @Override
     public void onError(String error, int code) {
+        loading = false;
         if (listener != null) listener.onError(error, code);
         if (error != null) App.showToast(error);
     }

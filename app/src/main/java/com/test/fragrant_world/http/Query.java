@@ -6,8 +6,6 @@ import com.test.fragrant_world.App;
 import com.test.fragrant_world.http.json.JSON;
 
 import org.apache.http.HttpEntity;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,19 +24,15 @@ public class Query extends AsyncTask<String, Void, String> {
     /** Http response listener. */
     private final HttpRequestListener listener;
     /** Query json post. */
-    private HttpEntity post;
-    /** Error. */
-    private static final String ERROR = "error";
-    /** Message. */
-    private static final String MESSAGE = "message";
-    /** Code. */
-    private static final String CODE = "code";
+    private HttpEntity post;;
     /** Unexpected error. */
     private static final String UNEXPECTED_ERROR = "unexpected api error";
     /** Is server unavailable. */
-    protected boolean isUnavailable;
+    protected boolean timeout;
     /** Response code. */
     protected int responseCode = 0;
+
+    public static final int TIMEOUT_ERROR = 999;
 
     /**
      * Constructor with parameters.
@@ -49,8 +43,8 @@ public class Query extends AsyncTask<String, Void, String> {
         this.post = post;
     }
 
-    @Override //SUPPRESS CHECKSTYLE Method Length
-    public void onPreExecute() { //SUPPRESS CHECKSTYLE Method Length
+    @Override
+    public void onPreExecute() {
         super.onPreExecute();
         listener.onRequestStart();
         if (!App.isConnectionAvailable()) {
@@ -81,7 +75,7 @@ public class Query extends AsyncTask<String, Void, String> {
             }
             connection.disconnect();
         } catch (SocketTimeoutException e) {
-            isUnavailable = true;
+            timeout = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +107,6 @@ public class Query extends AsyncTask<String, Void, String> {
     /**
      * Add post post to query.
      * @param conn connection instance
-     * @throws IOException
      */
     private void setupPost(HttpURLConnection conn) throws IOException {
         conn.setRequestMethod("POST");
@@ -126,10 +119,10 @@ public class Query extends AsyncTask<String, Void, String> {
         outputStream.close();
     }
 
-    @Override //SUPPRESS CHECKSTYLE Method Length
-    public void onPostExecute(String response) { //SUPPRESS CHECKSTYLE Method Length
+    @Override
+    public void onPostExecute(String response) {
         if (response == null) {
-            performError(UNEXPECTED_ERROR + ":" + responseCode,  isUnavailable ? 999 : 0);
+            performError(UNEXPECTED_ERROR + ":" + responseCode,  timeout ? TIMEOUT_ERROR : 0);
         } else {
             JSON json = new JSON(response);
             listener.onAnswerReceived(json);

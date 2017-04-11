@@ -1,6 +1,6 @@
 package com.test.fragrant_world.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +10,13 @@ import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.listener.SimpleItemClickListener;
 import com.test.fragrant_world.model.Section;
+import com.test.fragrant_world.presenter.SectionPresenter;
+import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.SectionView;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private List<Section> sections = new ArrayList<>();
+public class SectionsAdapter extends MvpRecyclerListAdapter<Section, SectionPresenter,
+        SectionsAdapter.SectionHolder>  {
 
     private SimpleItemClickListener listener;
 
@@ -28,33 +27,26 @@ public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SectionsAdapter.SectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_section, parent, false);
         return new SectionHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SectionHolder sectionHolder = (SectionHolder) holder;
-        Section section = sections.get(position);
-        sectionHolder.itemView.setBackground(selectedPosition == position
-                ? App.getImage(R.drawable.selected_card)
-                : App.getImage(R.drawable.background_card));
-        sectionHolder.name.setText(section.getName());
-    }
-
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
-        notifyDataSetChanged();
+    protected SectionPresenter onCreatePresenter(@NonNull Section model) {
+        SectionPresenter presenter = new SectionPresenter();
+        presenter.setModel(model);
+        return presenter;
     }
 
     @Override
-    public int getItemCount() {
-        return sections.size();
+    protected Object getModelId(@NonNull Section model) {
+        return model.getName();
     }
 
-    class SectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    class SectionHolder extends MvpViewHolder<SectionPresenter> implements View.OnClickListener, SectionView {
 
         private final TextView name;
 
@@ -70,5 +62,18 @@ public class SectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             selectedPosition = getAdapterPosition();
             notifyDataSetChanged();
         }
+
+        @Override
+        public void setName(String name) {
+            this.name.setText(name);
+        }
+
+        @Override
+        public void setupSelection() {
+            itemView.setBackground(selectedPosition == getAdapterPosition()
+                    ? App.getImage(R.drawable.selected_card)
+                    : App.getImage(R.drawable.background_card));
+        }
+
     }
 }

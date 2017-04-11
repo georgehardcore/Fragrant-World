@@ -15,14 +15,12 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
         models = new ArrayList<>();
     }
 
-    public void clearAndAddAll(Collection<M> data) {
+    public void setAll(Collection<M> data) {
         models.clear();
         presenters.clear();
-
         for (M item : data) {
             addInternal(item);
         }
-
         notifyDataSetChanged();
     }
 
@@ -43,8 +41,6 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
 
     public void updateItem(M item) {
         Object modelId = getModelId(item);
-
-        // Swap the model
         int position = getItemPosition(item);
         if (position >= 0) {
             models.remove(position);
@@ -68,7 +64,6 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
             models.remove(item);
         }
         presenters.remove(getModelId(item));
-
         if (position >= 0) {
             notifyItemRemoved(position);
         }
@@ -76,7 +71,6 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
 
     private int getItemPosition(M item) {
         Object modelId = getModelId(item);
-
         int position = -1;
         for (int i = 0; i < models.size(); i++) {
             M model = models.get(i);
@@ -89,9 +83,8 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
     }
 
     private void addInternal(M item) {
-        System.err.println("Adding item " + getModelId(item));
         models.add(item);
-        presenters.put(getModelId(item), createPresenter(item));
+        presenters.put(getModelId(item), onCreatePresenter(item));
     }
 
     @Override

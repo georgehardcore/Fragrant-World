@@ -7,6 +7,7 @@ import com.test.fragrant_world.http.json.JSON;
 import com.test.fragrant_world.http.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogModel implements Parcelable {
 
@@ -71,21 +72,23 @@ public class CatalogModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(banners);
         dest.writeTypedList(viewedProducts);
+        dest.writeTypedList(news);
+        dest.writeTypedList(tematicSets);
     }
 
-    public ArrayList<TematicSet> getTematicSets() {
+    public List<TematicSet> getTematicSets() {
         return tematicSets;
     }
 
-    public ArrayList<News> getNews() {
+    public List<News> getNews() {
         return news;
     }
 
-    public ArrayList<Section> getViewedProducts() {
+    public List<Section> getViewedProducts() {
         return viewedProducts;
     }
 
-    public ArrayList<Banner> getBanners() {
+    public List<Banner> getBanners() {
         return banners;
     }
 }

@@ -1,7 +1,7 @@
 package com.test.fragrant_world.adapter;
 
 
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,43 +12,35 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 import com.test.fragrant_world.model.Product;
+import com.test.fragrant_world.presenter.ProductPresenter;
+import com.test.fragrant_world.view.MvpViewHolder;
+import com.test.fragrant_world.view.ProductView;
 
-import java.util.ArrayList;
 
-public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private ArrayList<Product> products = new ArrayList<>();
+public class ProductAdapter extends MvpRecyclerListAdapter<Product, ProductPresenter,
+        ProductAdapter.ProductHolder>  {
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductAdapter.ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_product, parent, false);
         return new ProductHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ProductHolder productHolder = (ProductHolder) holder;
-        Product product = products.get(position);
-        productHolder.name.setText(product.getNameOrigin());
-        productHolder.value.setText(product.getValue());
-        productHolder.price.setText(product.getPriceText());
-        ImageLoader.getInstance().displayImage(product.getImg(), productHolder.image,
-                App.getOptions());
-    }
-
-    public void setProducts(ArrayList<Product> productArray) {
-        this.products = productArray;
-        notifyDataSetChanged();
+    protected ProductPresenter onCreatePresenter(@NonNull Product model) {
+        ProductPresenter productPresenter = new ProductPresenter();
+        productPresenter.setModel(model);
+        return productPresenter;
     }
 
     @Override
-    public int getItemCount() {
-        return products.size();
+    protected Object getModelId(@NonNull Product model) {
+        return model.getArticul();
     }
 
 
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    public class ProductHolder extends MvpViewHolder<ProductPresenter> implements ProductView {
 
         private final TextView name;
 
@@ -64,6 +56,26 @@ public class ProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             image = (ImageView) itemView.findViewById(R.id.image);
             price = (TextView) itemView.findViewById(R.id.price);
             value = (TextView) itemView.findViewById(R.id.value);
+        }
+
+        @Override
+        public void setName(String nameOrigin) {
+            name.setText(nameOrigin);
+        }
+
+        @Override
+        public void setValue(String value) {
+            this.value.setText(value);
+        }
+
+        @Override
+        public void setPrice(String priceText) {
+            price.setText(priceText);
+        }
+
+        @Override
+        public void loadImage(String img) {
+            ImageLoader.getInstance().displayImage(img, image, App.getOptions());
         }
     }
 }

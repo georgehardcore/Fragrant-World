@@ -1,23 +1,23 @@
 package com.test.fragrant_world.view;
 
 
-import com.nostra13.universalimageloader.utils.L;
 import com.test.fragrant_world.model.Banner;
-import com.test.fragrant_world.model.ListedCard;
+import com.test.fragrant_world.model.News;
 import com.test.fragrant_world.model.Product;
 import com.test.fragrant_world.model.Section;
+import com.test.fragrant_world.model.TematicSet;
 
 import java.util.List;
 
-public interface CatalogView extends BaseView {
+public interface CatalogView extends LoadingView {
 
-    void showNews(List<ListedCard> newsList);
+    void setNews(List<News> newsList);
 
-    void showTematicSets(List<ListedCard> tematicSets);
+    void setTematicSets(List<TematicSet> tematicSets);
 
-    void showBanners(List<Banner> banners);
+    void setBanners(List<Banner> banners);
 
-    void showSections(List<Section> sections);
+    void setSections(List<Section> sections);
 
-    void showPrducts(List<Product> products);
+    void setProducts(List<Product> products);
 }

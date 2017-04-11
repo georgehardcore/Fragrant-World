@@ -1,7 +1,5 @@
 package com.test.fragrant_world.presenter;
 
-import android.view.View;
-
 import com.test.fragrant_world.model.ListedCard;
 import com.test.fragrant_world.view.ListedCardView;
 

@@ -18,11 +18,10 @@ public abstract class MVPRecyclerAdapter<M, P extends BasePresenter, VH extends 
     }
 
     protected P getPresenter(@NonNull M model) {
-        System.err.println("Getting presenter for item " + getModelId(model));
         return presenters.get(getModelId(model));
     }
 
-    protected abstract P createPresenter(@NonNull M model);
+    protected abstract P onCreatePresenter(@NonNull M model);
 
     protected abstract Object getModelId(@NonNull M model);
 

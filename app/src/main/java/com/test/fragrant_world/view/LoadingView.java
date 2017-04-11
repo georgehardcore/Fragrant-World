@@ -1,11 +1,13 @@
 package com.test.fragrant_world.view;
 
 
-interface BaseView {
+interface LoadingView {
+
+    void hideLoading();
 
     void showLayout();
 
     void showLoading();
 
-    void onError();
+    void onError(String error, int code);
 }

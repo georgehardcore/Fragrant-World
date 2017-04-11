@@ -18,8 +18,11 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
 
     @Override
     protected void updateView() {
-        //view().showNews(model.getNews());
-        //view().showTematicSets(model.getTematicSets());
+        view().setNews(model.getNews());
+        view().setTematicSets(model.getTematicSets());
+        view().setBanners(model.getBanners());
+        view().setSections(model.getViewedProducts());
+        view().setProducts(model.getViewedProducts().get(0).getProducts());
     }
 
     @Override
@@ -35,25 +38,31 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
 
     @Override
     public void showLoading() {
-
+        view().showLoading();
     }
 
     @Override
     public void hideLoading() {
-
+        view().hideLoading();
     }
 
     @Override
-    public void onAnswerReceived(JSON jsonObject) {
-        model = new CatalogModel(jsonObject);
+    public void onAnswerReceived(JSON json) {
+        setModel(new CatalogModel(json.getJSONObject("catalog")));
+        view().showLayout();
     }
 
     @Override
     public void onError(String error, int code) {
-
+        view().hideLoading();
+        view().onError(error, code);
     }
 
     public void onSectionClicked(int position) {
-        view().showPrducts(model.getViewedProducts().get(position).getProducts());
+        view().setProducts(model.getViewedProducts().get(position).getProducts());
+    }
+
+    public void onRetry() {
+        request.execute();
     }
 }
