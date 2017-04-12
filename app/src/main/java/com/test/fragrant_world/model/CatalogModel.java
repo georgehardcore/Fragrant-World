@@ -24,10 +24,10 @@ public class CatalogModel implements Parcelable {
     private ArrayList<Section> viewedProducts;
 
     public CatalogModel() {
-        tematicSets = new TematicSetDao().getAllData();
-        news = new NewsDao().getAllData();
-        viewedProducts = new ViewedProductsDao().getAllData();
-        banners = new BannerDao().getAllData();
+        tematicSets = TematicSetDao.getInstance().getAllData();
+        news = NewsDao.getInstance().getAllData();
+        viewedProducts = ViewedProductsDao.getInstance().getAllData();
+        banners = BannerDao.getInstance().getAllData();
     }
 
     public boolean isEmpty() {
@@ -36,40 +36,33 @@ public class CatalogModel implements Parcelable {
 
     public CatalogModel(JSON json) {
         JSONArray bannersArr = json.getArray("banners");
-        new BannerDao().clearTable();
         banners = new ArrayList<>();
         for (int i = 0; i < bannersArr.size(); i++) {
-            Banner banner = new Banner(bannersArr.getJSONObject(i));
-            banners.add(banner);
-            new BannerDao().insertItem(banner);
+            banners.add(new Banner(bannersArr.getJSONObject(i)));
         }
+        BannerDao.getInstance().replace(banners);
 
         JSONArray tematicSetsArr = json.getArray("tematicSets");
-        new TematicSetDao().clearTable();
         tematicSets = new ArrayList<>();
         for (int i = 0; i < tematicSetsArr.size(); i++) {
-            TematicSet tematicSet = new TematicSet(tematicSetsArr.getJSONObject(i));
-            tematicSets.add(tematicSet);
-            new TematicSetDao().insertItem(tematicSet);
+            tematicSets.add(new TematicSet(tematicSetsArr.getJSONObject(i)));
         }
+        TematicSetDao.getInstance().replace(tematicSets);
 
 
         JSONArray newsArr = json.getArray("news");
-        new NewsDao().clearTable();
         news = new ArrayList<>();
         for (int i = 0; i < newsArr.size(); i++) {
-            News newsItem =new News(newsArr.getJSONObject(i));
-            news.add(newsItem);
-            new NewsDao().insertItem(newsItem);
+            news.add(new News(newsArr.getJSONObject(i)));
         }
+        NewsDao.getInstance().replace(news);
 
         JSONArray sectionsArr = json.getArray("viewedProducts");
         viewedProducts = new ArrayList<>();
-        new ViewedProductsDao().clearTable();
         for (int i = 0; i < sectionsArr.size(); i++) {
             Section section = (new Section(sectionsArr.getJSONObject(i)));
             viewedProducts.add(section);
-            new ViewedProductsDao().insertItem(section);
+            ViewedProductsDao.getInstance().insertItem(section);
         }
     }
 

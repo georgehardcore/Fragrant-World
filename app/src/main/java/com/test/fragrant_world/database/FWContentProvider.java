@@ -106,9 +106,9 @@ public class FWContentProvider extends ContentProvider {
 
     @Override
     public String getType(@NonNull Uri uri) {
-        if (uri.toString().startsWith(VIEWED_PRODUCTS_URI.toString())) {
+        if (uri.toString().startsWith(BANNERS_URI.toString())) {
             return BANNERS_TABLE;
-        } else if (uri.toString().startsWith(BANNERS_URI.toString())) {
+        } else if (uri.toString().startsWith(VIEWED_PRODUCTS_URI.toString())) {
             return VIEWED_PRODUCTS_TABLE;
         } else if (uri.toString().startsWith(TEMATIC_SETS.toString())) {
             return TEMATIC_SETS_TABLE;

@@ -122,12 +122,12 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
 
 
     public void setNews(List<News> newsList) {
-        newsAdapter.addAll(newsList);
+        newsAdapter.setAll(newsList);
     }
 
 
     public void setTematicSets(List<TematicSet> tematicSets) {
-        tematicSetsAdapter.addAll(tematicSets);
+        tematicSetsAdapter.setAll(tematicSets);
     }
 
 

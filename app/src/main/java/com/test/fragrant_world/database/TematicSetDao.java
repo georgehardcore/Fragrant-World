@@ -14,6 +14,16 @@ public class TematicSetDao extends AbsDao<TematicSet> {
 
     public static final String KEY_IMAGE = "image";
 
+    private static TematicSetDao instance;
+
+    private TematicSetDao() { }
+
+    public static TematicSetDao getInstance() {
+        if (instance != null) return instance;
+        instance = new TematicSetDao();
+        return instance;
+    }
+
     @Override
     protected String[] getAllColumns() {
         return new String[] {KEY_ID, KEY_IMAGE, KEY_DESCRIPTION};

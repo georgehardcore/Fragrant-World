@@ -14,8 +14,8 @@
     <string name="create_viewed_products_table">
 
         CREATE TABLE [ViewedProducts] (
-        [name] TEXT NOT NULL,
-        [products] TEXT NOT NULL
+        [name] TEXT NULL,
+        [products] TEXT NULL
         );
 
     </string>
@@ -24,8 +24,8 @@
 
         CREATE TABLE [News] (
         [id] INTEGER NOT NULL PRIMARY KEY,
-        [image] TEXT NOT NULL,
-        [description] TEXT NOT NULL
+        [image] TEXT NULL,
+        [description] TEXT NULL
         );
 
     </string>
@@ -35,7 +35,7 @@
         CREATE TABLE [TematicSets] (
         [id] INTEGER NOT NULL PRIMARY KEY,
         [image] TEXT NOT NULL,
-        [description] TEXT NOT NULL
+        [description] TEXT NULL
         );
 
     </string>

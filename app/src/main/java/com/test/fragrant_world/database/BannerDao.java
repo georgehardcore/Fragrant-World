@@ -15,6 +15,16 @@ public class BannerDao extends AbsDao<Banner> {
 
     public static final String KEY_DESCRIPTION = "description";
 
+    private static BannerDao instance;
+
+    private BannerDao() { }
+
+    public static BannerDao getInstance() {
+        if (instance != null) return instance;
+        instance = new BannerDao();
+        return instance;
+    }
+
     @Override
     protected String[] getAllColumns() {
         return new String[] {KEY_HEADER, KEY_IMAGE, KEY_DESCRIPTION};
@@ -32,6 +42,10 @@ public class BannerDao extends AbsDao<Banner> {
 
     @Override
     protected ContentValues makeContentValuesFromInstance(Banner instance) {
-        return null;
+        ContentValues banner = new ContentValues();
+        banner.put(KEY_IMAGE, instance.getImage());
+        banner.put(KEY_HEADER, instance.getHeader());
+        banner.put(KEY_DESCRIPTION, instance.getDescription());
+        return banner;
     }
 }

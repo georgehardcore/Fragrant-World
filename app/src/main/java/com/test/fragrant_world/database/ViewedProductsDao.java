@@ -13,6 +13,16 @@ public class ViewedProductsDao extends AbsDao<Section> {
 
     public static final String KEY_PRODUCTS = "products";
 
+    private static ViewedProductsDao instance;
+
+    private ViewedProductsDao() { }
+
+    public static ViewedProductsDao getInstance() {
+        if (instance != null) return instance;
+        instance = new ViewedProductsDao();
+        return instance;
+    }
+
     @Override
     protected String[] getAllColumns() {
         return new String[] {KEY_NAME, KEY_PRODUCTS};

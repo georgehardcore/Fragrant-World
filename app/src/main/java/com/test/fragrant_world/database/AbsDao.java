@@ -130,6 +130,13 @@ public abstract class AbsDao<T> {
         return affectedRowsNumber == 1;
     }
 
+    public void replace(ArrayList<T> items) {
+        clearTable() ;
+        for (T item: items) {
+            insertItem(item);
+        }
+    }
+
     /**
      * Insert item to table.
      * @param item item
