@@ -48,22 +48,29 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
 
     @Override
     public void showLoading() {
-        view().showLoading();
+        if (view() != null) {
+            view().showLoading();
+        }
     }
 
     @Override
     public void hideLoading() {
-        view().hideLoading();
+        if (view() != null) {
+            view().hideLoading();
+        }
     }
 
     @Override
     public void onAnswerReceived(JSON json) {
         setModel(CatalogModel.fromJson(json.getJSONObject("catalog")));
-        view().showLayout();
+        if (view() != null) {
+            view().showLayout();
+        }
     }
 
     @Override
     public void onError(String error, int code) {
+        if (view() == null) return;
         view().hideLoading();
         if (code == Request.NO_CONNECTION && model != null) {
             return;

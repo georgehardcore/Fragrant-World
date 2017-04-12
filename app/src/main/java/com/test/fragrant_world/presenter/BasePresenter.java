@@ -1,7 +1,5 @@
 package com.test.fragrant_world.presenter;
 
-import android.support.annotation.NonNull;
-
 import java.lang.ref.WeakReference;
 
 /**
@@ -17,14 +15,14 @@ public abstract class BasePresenter<M, V> {
 
     public void setModel(M model) {
         this.model = model;
-        if (check()) {
+        if (checkState()) {
             updateView();
         }
     }
 
     public void bindView(V view) {
         this.view = new WeakReference<>(view);
-        if (check()) {
+        if (checkState()) {
             updateView();
         }
     }
@@ -43,7 +41,7 @@ public abstract class BasePresenter<M, V> {
 
     protected abstract void updateView();
 
-    protected boolean check() {
+    protected boolean checkState() {
         return view() != null && model != null;
     }
 }
