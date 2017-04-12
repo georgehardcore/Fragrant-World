@@ -5,7 +5,7 @@
     toolbar:theme="@style/ActionBarThemeOverlay"
     toolbar:popupTheme="@style/ActionBarPopupThemeOverlay"
     android:id="@+id/toolbar_actionbar"
-    android:background="@color/color_primary"
+    android:background="@drawable/background_toolbar"
     toolbar:titleTextAppearance="@style/Theme.ActionBar.TitleTextStyle"
     toolbar:subtitleTextAppearance="@style/Theme.ActionBar.SubtitleTextStyle"
     android:layout_width="match_parent"

@@ -23,18 +23,26 @@ public class CatalogModel implements Parcelable {
 
     private ArrayList<Section> viewedProducts;
 
-    public CatalogModel() {
+    protected CatalogModel() {
         tematicSets = TematicSetDao.getInstance().getAllData();
         news = NewsDao.getInstance().getAllData();
         viewedProducts = ViewedProductsDao.getInstance().getAllData();
         banners = BannerDao.getInstance().getAllData();
     }
 
+    public static CatalogModel fromDatabase() {
+        return new CatalogModel();
+    }
+
+    public static CatalogModel fromJson(JSON json) {
+        return new CatalogModel(json);
+    }
+
     public boolean isEmpty() {
         return tematicSets.isEmpty();
     }
 
-    public CatalogModel(JSON json) {
+    protected CatalogModel(JSON json) {
         JSONArray bannersArr = json.getArray("banners");
         banners = new ArrayList<>();
         for (int i = 0; i < bannersArr.size(); i++) {
@@ -60,10 +68,9 @@ public class CatalogModel implements Parcelable {
         JSONArray sectionsArr = json.getArray("viewedProducts");
         viewedProducts = new ArrayList<>();
         for (int i = 0; i < sectionsArr.size(); i++) {
-            Section section = (new Section(sectionsArr.getJSONObject(i)));
-            viewedProducts.add(section);
-            ViewedProductsDao.getInstance().insertItem(section);
+            viewedProducts.add(new Section(sectionsArr.getJSONObject(i)));
         }
+        ViewedProductsDao.getInstance().replace(viewedProducts);
     }
 
     protected CatalogModel(Parcel in) {

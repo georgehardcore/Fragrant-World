@@ -4,7 +4,7 @@
     <color name="color_primary_dark">#7d0d2e</color>
     <color name="color_accent">#7d0d2e</color>
     <color name="white">#ffffff</color>
-    <color name="drawer_selected_color">#f5f1f9</color>
+    <color name="drawer_selected_color">#207d0d2e</color>
     <color name="transparent">#00000000</color>
     <color name="presentation_white">#50ffffff</color>
 

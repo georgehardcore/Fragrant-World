@@ -7,18 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
 
 public class ProfileFragment extends BaseFragment {
 
     private View fragmentView;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getContext().setCurrentTitle(App.getStr(R.string.profile));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

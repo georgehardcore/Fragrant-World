@@ -25,6 +25,7 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
         if (!model.getViewedProducts().isEmpty()) {
             view().setProducts(model.getViewedProducts().get(0).getProducts());
         }
+        view().showLayout();
     }
 
     @Override
@@ -32,14 +33,13 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
         super.bindView(view);
         request = new Request.Builder().postParams(MultipartEntityBuilder.create().build())
                 .httpRequest(Queries.catalog()).listener(this).build();
-        if (model == null && !request.isLoading()) {
+        CatalogModel catalogModel = CatalogModel.fromDatabase();
+        if (!catalogModel.isEmpty()) {
+            setModel(catalogModel);
+            updateView();
+        }
+        if (!request.isLoading()) {
             view().showLoading();
-            CatalogModel catalogModel = new CatalogModel();
-            if (!catalogModel.isEmpty()) {
-                setModel(catalogModel);
-                updateView();
-                view.showLayout();
-            }
             request.execute();
         } else {
             updateView();
@@ -58,13 +58,16 @@ public class CatalogPresenter extends BasePresenter<CatalogModel, CatalogView> i
 
     @Override
     public void onAnswerReceived(JSON json) {
-        setModel(new CatalogModel(json.getJSONObject("catalog")));
+        setModel(CatalogModel.fromJson(json.getJSONObject("catalog")));
         view().showLayout();
     }
 
     @Override
     public void onError(String error, int code) {
         view().hideLoading();
+        if (code == Request.NO_CONNECTION && model != null) {
+            return;
+        }
         view().onError(error, code);
     }
 

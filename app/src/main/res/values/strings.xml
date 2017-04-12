@@ -15,4 +15,5 @@
     <string name="label_viewed_products">Просмотренные товары</string>
     <string name="all_now">Все сразу</string>
     <string name="watch_all">Смотреть все</string>
+    <string name="bucket">Корзина</string>
 </resources>

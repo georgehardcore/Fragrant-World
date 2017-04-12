@@ -5,12 +5,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.test.fragrant_world.App;
 import com.test.fragrant_world.R;
+import com.test.fragrant_world.activity.WorldActivity;
 import com.test.fragrant_world.adapter.IndicatorAdapter;
 import com.test.fragrant_world.adapter.NewCardAdapter;
 import com.test.fragrant_world.adapter.PresentationAdapter;
@@ -30,7 +34,8 @@ import com.test.fragrant_world.view.CatalogView;
 import java.util.List;
 
 
-public class CatalogFragment extends BaseFragment implements CatalogView, View.OnClickListener {
+public class CatalogFragment extends BaseFragment implements CatalogView, View.OnClickListener,
+        Toolbar.OnMenuItemClickListener {
 
     private View fragmentView;
     /** Indicator adapter. */
@@ -52,13 +57,14 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
     @Override
     public void onResume() {
         super.onResume();
+        ((WorldActivity) getContext()).enableDrawer();
         presenter.bindView(this);
-        getContext().setCurrentTitle(App.getStr(R.string.catalog));
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         presenter = new CatalogPresenter();
         indicatorAdapter = new IndicatorAdapter();
         tematicSetsAdapter = new TematicSetAdapter();
@@ -83,8 +89,8 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         pager.addOnPageChangeListener(createPageChangeListener());
         RecyclerView indicator = (RecyclerView) fragmentView.findViewById(R.id.indicator);
         setupRecyclerView(indicator, indicatorAdapter);
-        RecyclerView tematicSetsView = (RecyclerView) fragmentView.findViewById(R.id.tematic_set_list);
-        setupRecyclerView(tematicSetsView, tematicSetsAdapter);
+        RecyclerView tematicSets = (RecyclerView) fragmentView.findViewById(R.id.tematic_set_list);
+        setupRecyclerView(tematicSets, tematicSetsAdapter);
         RecyclerView newsList = (RecyclerView) fragmentView.findViewById(R.id.news_list);
         setupRecyclerView(newsList, newsAdapter);
         RecyclerView products = (RecyclerView) fragmentView.findViewById(R.id.products_list);
@@ -92,6 +98,21 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         RecyclerView sections = (RecyclerView) fragmentView.findViewById(R.id.sections_list);
         setupRecyclerView(sections, sectionsAdapter);
         return fragmentView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+        getContext().getToolbar().setOnMenuItemClickListener(this);
+        menuInflater.inflate(R.menu.catalog_menu, menu);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.shop_card) {
+            getContext().setFragment(new BucketFragment(), null, true);
+        }
+        return true;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
@@ -120,27 +141,27 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         };
     }
 
-
+@   Override
     public void setNews(List<News> newsList) {
         newsAdapter.setAll(newsList);
     }
 
-
+    @Override
     public void setTematicSets(List<TematicSet> tematicSets) {
         tematicSetsAdapter.setAll(tematicSets);
     }
 
-
+    @Override
     public void setBanners(List<Banner> banners) {
         presentationAdapter.setBanners(banners);
     }
 
-
+    @Override
     public void setSections(List<Section> sections) {
         sectionsAdapter.setAll(sections);
     }
 
-
+    @Override
     public void setProducts(List<Product> products) {
         productAdapter.setAll(products);
     }
@@ -150,21 +171,20 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         fragmentView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
+    @Override
     public void showLayout() {
         fragmentView.findViewById(R.id.catalog_layout).setVisibility(View.VISIBLE);
     }
 
-
+    @Override
     public void showLoading() {
         fragmentView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         fragmentView.findViewById(R.id.error_view).setVisibility(View.GONE);
     }
 
-
+    @Override
     public void onError(String error, int code) {
-        if (code == Request.NO_CONNECTION) {
-            return;
-        }
+
         fragmentView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         fragmentView.findViewById(R.id.error_view).setVisibility(View.VISIBLE);
     }
@@ -179,5 +199,4 @@ public class CatalogFragment extends BaseFragment implements CatalogView, View.O
         super.onPause();
         presenter.unbindView();
     }
-
 }

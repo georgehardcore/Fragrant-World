@@ -12,13 +12,24 @@
         android:supportsRtl="true"
         android:name=".App"
         android:theme="@style/Theme.World.Base">
+
         <activity
             android:theme="@style/Theme.World.Base"
             android:name=".activity.WorldActivity">
             <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.LogoActivity"
+            android:theme="@style/Theme.World.Base">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
 
         <provider
